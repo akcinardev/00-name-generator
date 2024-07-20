@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace NameGenerator.Models
 {
     public class Result
     {
-        public string gender { get; set; }
-        public Name name { get; set; }
+		[JsonPropertyName("gender")]
+		public string Gender { get; set; }
+
+		[JsonPropertyName("name")]
+		public Name Name { get; set; }
     }
 }

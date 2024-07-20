@@ -27,7 +27,7 @@ namespace NameGenerator
 
 			foreach (Name name in randomNames)
 			{
-				Console.WriteLine($"Random Name: {name.first} {name.last}");
+				Console.WriteLine($"Random Name: {name.First} {name.Last}");
 			}
         }
 	}

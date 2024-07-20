@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 using NameGenerator.Models;
 
 namespace NameGenerator.Controllers
@@ -11,7 +6,6 @@ namespace NameGenerator.Controllers
     public class ApiController
 	{
 		public ApiController() { }
-
 
         /// <summary>
         /// Sends GET request to API and and gets the response body.
@@ -36,7 +30,7 @@ namespace NameGenerator.Controllers
 		}
 
 		/// <summary>
-		/// Parses given json string and gets a random name object.
+		/// Parses given json string and gets random name object/s.
 		/// </summary>
 		/// <param name="json"></param>
 		/// <returns><see cref="Name"/></returns>
@@ -46,9 +40,9 @@ namespace NameGenerator.Controllers
 
 			ApiResponse apiResponse = JsonSerializer.Deserialize<ApiResponse>(json);
 
-            foreach(Result result in apiResponse.results)
+            foreach(Result result in apiResponse.Results)
             {
-                nameList.Add(result.name);
+                nameList.Add(result.Name);
             }
 
             return nameList;
