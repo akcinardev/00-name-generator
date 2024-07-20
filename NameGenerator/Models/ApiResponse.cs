@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NameGenerator
+namespace NameGenerator.Models
 {
-	public class ApiResponse
-	{
+    public class ApiResponse
+    {
         public List<Result> results { get; set; }
-	}
+    }
 }

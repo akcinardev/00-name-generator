@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NameGenerator
+namespace NameGenerator.Models
 {
-	public class Name
-	{
+    public class Name
+    {
         public string title { get; set; }
         public string first { get; set; }
         public string last { get; set; }

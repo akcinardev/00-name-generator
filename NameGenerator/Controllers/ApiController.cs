@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using NameGenerator.Models;
 
 namespace NameGenerator.Controllers
 {
-	public class ApiController
+    public class ApiController
 	{
 		public ApiController() { }
 

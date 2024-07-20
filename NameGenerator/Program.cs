@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NameGenerator.Controllers;
+using NameGenerator.Models;
 
 namespace NameGenerator
 {
-	internal class Program
+    internal class Program
 	{
 		static void Main(string[] args)
 		{
