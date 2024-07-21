@@ -15,13 +15,19 @@ namespace NameGenerator
 			try
 			{
 				// Get JSON Response from API
-				List<Name>? randomNames = apiController.GetRandomNames();
-
-				// Parse JSON Response to get random names
-				if (randomNames?.Count > 0)
+				Task.Run(async () =>
 				{
-					DisplayNames(randomNames);
-				}
+					List<Name>? randomNames = await apiController.GetRandomNames(11);
+
+					if (randomNames?.Count > 0)
+					{
+						DisplayNames(randomNames);
+					}
+
+				}).GetAwaiter().GetResult();
+				
+
+				
 			}
 			catch (Exception ex)
 			{
@@ -42,5 +48,6 @@ namespace NameGenerator
 				Console.WriteLine($"Random Name: {name.First} {name.Last}");
 			}
 		}
+
 	}
 }

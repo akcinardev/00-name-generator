@@ -19,9 +19,10 @@ namespace NameGenerator.Controllers
 		/// </summary>
 		/// <param name="amount"></param>
 		/// <returns></returns>
-		public List<Name>? GetRandomNames(int amount = 1)
+		public async Task<List<Name>?> GetRandomNames(int amount = 1)
 		{
-			string? jsonResponse = GetApiResponseBody(this.ApiUrl, amount);
+			// string? jsonResponse = GetApiResponseBody(this.ApiUrl, amount);
+			string? jsonResponse = await GetApiResponseBodyAsync(this.ApiUrl, amount);
 			List<Name>? randomNames = GetNamesFromJson(jsonResponse);
 			if (randomNames == null || randomNames.Count == 0)
 			{
@@ -31,25 +32,26 @@ namespace NameGenerator.Controllers
 		}
 
 		/// <summary>
-		/// Sends GET request to API and and gets the response body.
+		/// Sends GET request to API and and gets the response body asynchronously.
 		/// </summary>
 		/// <param name="apiUrl"></param>
+		/// <param name="queryAmount"></param>
 		/// <returns>The response body in JSON format.</returns>
-		private string GetApiResponseBody(string apiUrl, int queryAmount = 1)
+		private async Task<string> GetApiResponseBodyAsync(string apiUrl, int queryAmount = 1)
 		{
-			queryAmount = queryAmount < 1 ? 1 : queryAmount;
-			queryAmount = queryAmount > 10 ? 10 : queryAmount;
+			queryAmount = Math.Clamp(queryAmount, 1, 10);
 
 			string apiquery = apiUrl + "?results=" + queryAmount.ToString();
 
-            HttpClient client = new HttpClient();
+			using (HttpClient httpClient = new HttpClient())
+			{
+				HttpResponseMessage response = await httpClient.GetAsync(apiquery);
+				response.EnsureSuccessStatusCode();
 
-			HttpResponseMessage response = client.GetAsync(apiquery).Result;
-			response.EnsureSuccessStatusCode();
+				string responseBody = await response.Content.ReadAsStringAsync();
 
-			string responseBody = response.Content.ReadAsStringAsync().Result;
-
-            return responseBody;
+				return responseBody;
+			}
 		}
 
 		/// <summary>
