@@ -8,33 +8,39 @@ namespace NameGenerator
 	{
 		static void Main(string[] args)
 		{
-			ApiController apiController = new ApiController();
+			// Load configuration file
+			IConfiguration config = LoadConfiguration();
+			ApiController apiController = new ApiController(config);
+
+			try
+			{
+				// Get JSON Response from API
+				List<Name>? randomNames = apiController.GetRandomNames();
+
+				// Parse JSON Response to get random names
+				if (randomNames?.Count > 0)
+				{
+					DisplayNames(randomNames);
+				}
+			}
+			catch (Exception ex)
+			{
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
+		private static IConfiguration LoadConfiguration()
+		{
 			ConfigController configController = new ConfigController();
-			IConfiguration config = configController.InitiateConfig();
-			List<Name>? randomNames;
-			string jsonResponse;
-			string? API_URL;
+			return configController.InitiateConfig();
+		}
 
-
-			// Get JSON Response from API
-			API_URL = config["ApiURL"];
-			if (API_URL != null)
-			{
-				jsonResponse = apiController.GetApiResponseBody(API_URL, 3);
-			}
-			else
-			{
-				throw new Exception("API URL could not be found on config.");
-			}
-			
-
-			// Parse JSON Response and get random name
-			randomNames = apiController.GetNamesFromJson(jsonResponse);
-
+		private static void DisplayNames(List<Name> randomNames)
+		{
 			foreach (Name name in randomNames)
 			{
 				Console.WriteLine($"Random Name: {name.First} {name.Last}");
 			}
-        }
+		}
 	}
 }
