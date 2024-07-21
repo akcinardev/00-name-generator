@@ -38,7 +38,7 @@ namespace NameGenerator.Controllers
 		{
 			List<Name>? nameList = new List<Name>();
 
-			ApiResponse apiResponse = JsonSerializer.Deserialize<ApiResponse>(json);
+			ApiResponse? apiResponse = JsonSerializer.Deserialize<ApiResponse>(json);
 
             foreach(Result result in apiResponse.Results)
             {
@@ -46,21 +46,6 @@ namespace NameGenerator.Controllers
             }
 
             return nameList;
-
-            // foreach(Result result in apiResponse.results)
-            // {
-            //     // nameList.Add(result.name);
-            //     Console.WriteLine(result.name);
-            // }
-            // 
-            // if (apiResponse != null || apiResponse.results.Count > 0)
-            // {
-            // 	return nameList;
-            // }
-            // else
-            // {
-            // 	return null;
-            // }
         }
 	}
 }

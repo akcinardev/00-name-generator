@@ -9,18 +9,24 @@ namespace NameGenerator
 		static void Main(string[] args)
 		{
 			ApiController apiController = new ApiController();
-			IConfiguration config;
+			ConfigController configController = new ConfigController();
+			IConfiguration config = configController.InitiateConfig();
+			List<Name>? randomNames;
 			string jsonResponse;
-			List<Name> randomNames;
+			string? API_URL;
 
-			// Initialize config
-			var builder = new ConfigurationBuilder()
-				.SetBasePath(AppContext.BaseDirectory)
-				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-			config = builder.Build();
 
 			// Get JSON Response from API
-			jsonResponse = apiController.GetApiResponseBody(config["ApiURL"], 3);
+			API_URL = config["ApiURL"];
+			if (API_URL != null)
+			{
+				jsonResponse = apiController.GetApiResponseBody(API_URL, 3);
+			}
+			else
+			{
+				throw new Exception("API URL could not be found on config.");
+			}
+			
 
 			// Parse JSON Response and get random name
 			randomNames = apiController.GetNamesFromJson(jsonResponse);
